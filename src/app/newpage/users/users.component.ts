@@ -33,8 +33,12 @@ export class UsersComponent implements OnInit{
 
   }
 
-  deleteItem(userId : number){
-    console.log(userId);
+  deleteItem(email : string){
+    console.log(email);
+    this.consumer.delete("/sticky/api/v1/user/"+email, this.sessionServices.getoken()).subscribe((data: any) => {
+      console.log(data);
+      this.getUsers();
+    })
   }
 
   openModal(content: any, data?: any) {

@@ -29,7 +29,7 @@ export class LoginComponent {
       console.log(data);
       if(data.status == 200){
         this.sessionService.setDetails(data.data);
-        this.router.navigate(['/sticky']);
+        window.location.href = "/sticky";
       }else{
         alert("Invalid Credentials");
       }

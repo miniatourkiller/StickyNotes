@@ -7,7 +7,7 @@ import { SessionServiceService } from './session-service.service';
   providedIn: 'root'
 })
 export class ConsumerService {
-  baseUrl: string = 'http://localhost:8080';
+  baseUrl: string = 'http://161.97.69.205:4444';
 
   constructor(private http: HttpClient, private sessionService: SessionServiceService) { }
 

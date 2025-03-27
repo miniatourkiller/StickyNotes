@@ -9,10 +9,10 @@ import { Router } from '@angular/router';
 })
 export class NavBarComponent {
 
-  constructor(private sessionService: SessionServiceService, public router: Router) { }
+  constructor(public sessionService: SessionServiceService, public router: Router) { }
   logout(){
     this.sessionService.clearDetails();
-    this.router.navigate(['/']);
+    window.location.href = "/";
   }
 
   home(){
@@ -21,5 +21,9 @@ export class NavBarComponent {
 
   users(){
     this.router.navigate(['/users']);
+  }
+
+  userIsAdmin(){
+    return this.sessionService.getRole() === "ADMIN";
   }
 }

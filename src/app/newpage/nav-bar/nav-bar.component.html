@@ -2,10 +2,10 @@
     <div class="flex justify-between items-center shadow-lg p-4">
         <div class="Profile hover:shadow-xl p-2 rounded-full" (click)="home()">
             <img src="https://cdn-icons-png.flaticon.com/512/10337/10337609.png" alt="Profile Picture" class="w-12 h-12 rounded-full">
-            <p>Jon Doe</p>
+            <p>{{sessionService.fullName()}}</p>
         </div>
         <div class="nav-links">
-            <a (click)="users()" class="text-black no-underline p-3 hover:bg-gray-100">Users</a>
+            <a *ngIf="userIsAdmin()" (click)="users()" class="text-black no-underline p-3 hover:bg-gray-100">Users</a>
         </div>
         <!--logout button-->
         <div class="logout">

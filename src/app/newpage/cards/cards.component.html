@@ -1,8 +1,16 @@
 <div class="body p-2">
-    <!--Button to add card-->
-    <button class="text-black px-4 py-2  rounded bg-green-400 hover:bg-green-200 hover:shadow-xl float-right"
-        (click)="openModal(cardModal, undefined)">
-        New Card</button>
+    <div class="filter flex justify-between items-center">
+        <input
+            class=" mt-1 block p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+            type="text" placeholder="Title" [(ngModel)]="title">
+        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold p-2 rounded"
+            (click)="onSearch()">filter</button>
+        <!--Button to add card-->
+        <button class="text-black p-2  rounded bg-green-400 hover:bg-green-200 hover:shadow-xl"
+            (click)="openModal(cardModal, undefined)">
+            New Card</button>
+    </div>
+
     <ng-template #cardModal let-modal>
         <div class="modal-header">
             <h4 class="modal-title">Card</h4>
@@ -54,7 +62,7 @@
                 <div class="buttons relative">
                     <!-- reminder on dot-->
                     <div class="reminder-dot bg-red-500 rounded-full text-white text-center"
-                        [ngClass]="{'bg-red-500': card.reminder, 'bg-gray-500': !card.reminder}">reminder</div>
+                        [ngClass]="{'bg-red-500': card.reminder, 'bg-gray-500': !card.reminder}" title="{{card.reminderDate}}">reminder</div>
                     <!--edit button-->
                     <button class="text-black px-4 py-2 rounded hover:bg-white hover:shadow-xl"
                         (click)="openEditCardModal(editCardModal, card)">
@@ -187,16 +195,17 @@
                             <div class="options flex justify-between">
                                 <!--underline checkbox-->
                                 <div class="underline hoover:pointer hoover:shadow-xl rounded">
-                                    <button class="underline">Underline</button>
+                                    <button class="underline" (click)="underlineText(text.id)">Underline</button>
                                 </div>
 
                                 <!-- line through checkbox-->
                                 <div class="line-through hoover:pointer hoover:shadow-xl rounded">
-                                    <button class="line-through">Line Through</button>
+                                    <button class="line-through" (click)="strikethroughText(text.id)">Line
+                                        Through</button>
                                 </div>
                                 <!--bold checkbox-->
                                 <div class="highlight bg-red-200 hoover:pointer hoover:shadow-xl rounded">
-                                    <button> Highlight</button>
+                                    <button (click)="highlightText(text.id)"> Highlight</button>
                                 </div>
                             </div>
                             <br>
@@ -218,6 +227,18 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <!--pagination-->
+    <div class="pagination flex justify-between items-center">
+        <button (click)="paginationPrevious()"
+            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            Prev</button>
+        page: <p>{{currentPage}}</p>
+        out of: <p>{{totalPages}}</p>
+        size: <p>{{pageSize}}</p>
+        <button (click)="paginationNext()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            Next</button>
     </div>
 
     <!-- Modal -->

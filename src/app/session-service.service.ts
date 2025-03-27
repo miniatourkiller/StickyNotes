@@ -24,4 +24,16 @@ export class SessionServiceService {
   public clearDetails() : void{
     sessionStorage.clear();
   }
+
+  public getRole() : string | null{
+    return JSON.parse(sessionStorage.getItem('userDetails') || '{}').role;
+  }
+
+  public isLoggedIn() : boolean{
+    return sessionStorage.getItem('userDetails') != null;
+  }
+
+  public fullName() : string | null{
+    return JSON.parse(sessionStorage.getItem('userDetails') || '{}').funnName;
+  }
 }

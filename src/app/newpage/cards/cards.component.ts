@@ -17,6 +17,10 @@ export class CardsComponent {
   textForm: FormGroup;
   cards: Array<any> = [];
   scheduleDate: string = '';
+  pageSize: number = 3;
+  currentPage: number = 1;
+  totalPages: number = 0;
+  title: any = null;
 
   constructor(private modalService: NgbModal ,private fb: FormBuilder, private consumer: ConsumerService, private sessionServices: SessionServiceService) {
     this.cardForm = this.fb.group({
@@ -130,12 +134,14 @@ export class CardsComponent {
   //fecthing cards
   getCards(){
     var pagination = {
-    pageSize: 10,
-    pageNumber: 0
+    pageSize: this.pageSize,
+    pageNumber: this.currentPage - 1,
+    title: this.title
   }
     this.consumer.post("/sticky/api/v1/cards", pagination, this.sessionServices.getoken()).subscribe((data: any) => {
       console.log(data);
       this.cards = data.data.content;
+      this.totalPages = data.data.totalPages;
     }, (error) => {
       console.log(error.error);
     })
@@ -193,4 +199,61 @@ export class CardsComponent {
       console.log(error.error);
     })
   }
+
+
+  highlightText(textId: number){
+    console.log(textId);
+    this.consumer.put("/sticky/api/v1/text/" + textId +"/highlight", null, this.sessionServices.getoken()).subscribe((data: any) => {
+      console.log(data);
+      this.getCards();
+      this.clearTextGroup();
+    }, (error) => {
+      console.log(error.error);
+    })
+  }
+
+  underlineText(textId: number){
+    console.log(textId);
+    this.consumer.put("/sticky/api/v1/text/" + textId +"/underline", null, this.sessionServices.getoken()).subscribe((data: any) => {
+      console.log(data);
+      this.getCards();
+      this.clearTextGroup();
+    }, (error) => {
+      console.log(error.error);
+    })
+  }
+
+  strikethroughText(textId: number){
+    console.log(textId);
+    this.consumer.put("/sticky/api/v1/text/" + textId +"/line-through", null, this.sessionServices.getoken()).subscribe((data: any) => {
+      console.log(data);
+      this.getCards();
+      this.clearTextGroup();
+    }, (error) => {
+      console.log(error.error);
+    })
+  }
+
+  paginationNext() {
+    console.log(this.currentPage);
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.getCards();
+    }
+  }
+
+  paginationPrevious() {
+    console.log(this.currentPage);
+    
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.getCards();
+    }
+  }
+
+  onSearch() {
+    this.currentPage = 1;
+    this.getCards();
+  }
+
 }

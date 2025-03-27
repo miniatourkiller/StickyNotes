@@ -1,6 +1,7 @@
 import { Component , OnInit} from '@angular/core';
 import * as mapboxgl from 'mapbox-gl'
 import { ConsumerService } from './consumer.service';
+import { SessionServiceService } from './session-service.service';
 
 @Component({
   selector: 'app-root',
@@ -21,45 +22,9 @@ export class AppComponent implements OnInit{
   ngOnInit(): void {
   }
 
-  constructor(private consumer: ConsumerService) { }
+  constructor(private sessionService: SessionServiceService) {
+    // (mapboxgl as any).accessToken = this.accessToken;
+  }
 
-  // newLocation(){
-  //   this.removeMark();
-  //   this.setPopUp(this.name!)
-  //   this.addMarker(this.long, this.lat);
-  // }
-
-
-  // createMap(long: number, lat: number){
-  //   this.map = new mapboxgl.Map({
-  //     accessToken:this.accessToken,
-  //     container: 'map',
-  //     style: 'mapbox://styles/mapbox/streets-v11',
-  //     center: [long, lat],
-  //     zoom: 16
-  //   });
-  // }
-
-
-  // addMarker(long: number, lat: number){
-  //    this.spot = new mapboxgl.Marker()
-  // .setLngLat([long, lat])
-  // .addTo(this.map!)
-  // .setPopup(this.tag)
-  // }
-
-
-  // setPopUp(driverName: string){
-  //   this.tag =new mapboxgl.Popup({})
-  //   .setText(driverName)
-  //   .addTo(this.map!)
-
-  // }
-
-  // removeMark(){
-  //   this.spot?.remove()
-  // }
-
-
-  notLoggedIn: boolean = true;
+  loggedIn: boolean = this.sessionService.isLoggedIn();
 }
