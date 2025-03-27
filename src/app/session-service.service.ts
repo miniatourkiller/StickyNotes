@@ -20,4 +20,8 @@ export class SessionServiceService {
   public getoken() : string | null{
     return JSON.parse(sessionStorage.getItem('userDetails') || '{}').token;
   }
+
+  public clearDetails() : void{
+    sessionStorage.clear();
+  }
 }

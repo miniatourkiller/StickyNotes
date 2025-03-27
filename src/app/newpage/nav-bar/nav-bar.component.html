@@ -1,7 +1,15 @@
 <div class="container mx-auto p-4">
-    <div class="flex justify-between items-center">
-        <div class="profile">
-            <img src="https://via.placeholder.com/50" alt="Profile Picture" class="w-12 h-12 rounded-full">
+    <div class="flex justify-between items-center shadow-lg p-4">
+        <div class="Profile hover:shadow-xl p-2 rounded-full" (click)="home()">
+            <img src="https://cdn-icons-png.flaticon.com/512/10337/10337609.png" alt="Profile Picture" class="w-12 h-12 rounded-full">
+            <p>Jon Doe</p>
+        </div>
+        <div class="nav-links">
+            <a (click)="users()" class="text-black no-underline p-3 hover:bg-gray-100">Users</a>
+        </div>
+        <!--logout button-->
+        <div class="logout">
+            <button (click)="logout()" class="hover:bg-red-200 text-red font-bold py-2 px-4 rounded">Logout</button>
         </div>
     </div>
 </div>

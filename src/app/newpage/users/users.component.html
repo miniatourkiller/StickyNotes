@@ -1,0 +1,30 @@
+<div class="body">
+    <div class="container">
+        <!--users table-->
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>D.O.B</th>
+                    <th>Role</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let user of users">
+                    <td>{{user.fullName}}</td>
+                    <td>{{user.email}}</td>
+                    <td>{{user.dob}}</td>
+                    <td>{{user.role}}</td>
+                    <td><p class="status p-1 bg-white-100 rounded text-center shadow-lg"
+                        [ngClass]="{'bg-blue-100': !user.status, 'bg-red-100':user.status}">
+                        {{user.active? 'Active' : 'Inactive'}}
+                    </p></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
