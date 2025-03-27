@@ -1,0 +1,246 @@
+<div class="body p-2">
+    <!--Button to add card-->
+    <button class="text-black px-4 py-2  rounded bg-green-400 hover:bg-green-200 hover:shadow-xl float-right"
+        (click)="openModal(cardModal, undefined)">
+        New Card</button>
+    <ng-template #cardModal let-modal>
+        <div class="modal-header">
+            <h4 class="modal-title">Card</h4>
+        </div>
+        <div class="modal-body">
+            <!--- body with inputs -->
+            <form [formGroup]="cardForm" class="p-2" (ngSubmit)="onCreateCard()">
+                <input type="number" formControlName="id" hidden>
+                <!--card title input-->
+                <div class="title">
+                    <input type="text"
+                        class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                        id="title" formControlName="title" placeholder="Title">
+                </div>
+                <!--color input-->
+                <div class="color">
+                    <input type="text"
+                        class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                        id="color" formControlName="color" placeholder="Color">
+                </div>
+                <br>
+                <!--submit input-->
+                <div class="text">
+                    <button type="submit"
+                        class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Submit</button>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+                (click)="modal.close('Close click')">
+                Close
+            </button>
+        </div>
+    </ng-template>
+
+    <br>
+    <br>
+
+    <div class="m-3 flex flex-wrap">
+        <!-- Card here-->
+        <div *ngFor="let card of cards; let i = index"
+            class="card m-3 w-96 bg-white shadow-xl rounded-lg overflow-hidden">
+            <div class="flex justify-between p-2" [ngClass]="card.color">
+                <div class="card-title">
+                    <h1>{{card.title}}</h1>
+                    <p>{{card.dateCreated}}</p>
+                </div>
+                <div class="buttons relative">
+                    <!--edit button-->
+                    <button class="text-black px-4 py-2 rounded hover:bg-white hover:shadow-xl"
+                        (click)="openEditCardModal(editCardModal, card)">
+                        Edit
+                    </button>
+                    <ng-template #editCardModal let-modal>
+                        <div class="modal-header">
+                            <h4 class="modal-title">Card</h4>
+                        </div>
+                        <div class="modal-body">
+                            <!--- body with inputs -->
+                            <form [formGroup]="cardForm" class="p-2" (ngSubmit)="onEditCardSubmit()">
+                                <input type="number" formControlName="id" hidden>
+                                <!--card title input-->
+                                <div class="title">
+                                    <input type="text"
+                                        class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                                        id="title" formControlName="title" placeholder="Title">
+                                </div>
+                                <!--color input-->
+                                <div class="color">
+                                    <input type="text"
+                                        class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                                        id="color" formControlName="color" placeholder="Color">
+                                </div>
+                                <br>
+                                <!--submit input-->
+                                <div class="text">
+                                    <button type="submit"
+                                        class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Submit</button>
+                                </div>
+                                <!--reminder checkbox-->
+                                <label for="reminder">Reminder</label>
+                                <div class="checkbox flex items-center justify-between">
+                                    <!-- check if checked to display reminder input -->
+                                    <div class="reminder">
+                                        <input type="datetime-local"
+                                            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                                            id="reminder" placeholder="Reminder">
+                                        <!--shdule button-->
+                                    </div>
+                                    <button type="submit"
+                                        class="text-white px-4 py-2 rounded bg-indigo-300 hover:bg-red-100 hover:shadow-xl">Schedule</button>
+                                </div>
+                                <!-- delete button-->
+                                <div class="delete mt-2">
+                                    <button
+                                        class="text-white px-4 py-2 rounded bg-red-300 hover:bg-indigo-100 hover:shadow-xl"
+                                        (click)="deleteCard(card.id)">Delete</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button"
+                                class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+                                (click)="modal.close('Close click')">
+                                Close
+                            </button>
+                        </div>
+                    </ng-template>
+                    <br>
+                    <!--add text button-->
+                    <button class="text-black px-4 py-2 rounded hover:bg-white hover:shadow-xl"
+                        (click)="openModal(textModal)">Add</button>
+                    <ng-template #textModal let-modal>
+                        <div class="modal-header">
+                            <h4 class="modal-title">Text</h4>
+                        </div>
+                        <div class="modal-body">
+                            <!--- body with inputs -->
+                            <form [formGroup]="textForm" class="p-2" (ngSubmit)="onSubmitCreateText(card.id)">
+                                <!--card title input-->
+                                <div class="title">
+                                    <input type="text"
+                                        class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                                        id="title" formControlName="text" placeholder="Text here">
+                                </div>
+                                <!--submit input-->
+                                <div class="text">
+                                    <button type="submit"
+                                        class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Submit</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button"
+                                class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+                                (click)="modal.close('Close click')">
+                                Close
+                            </button>
+                        </div>
+                    </ng-template>
+                </div>
+            </div>
+            <div class="card-body">
+                <!--text card-->
+                <div *ngFor="let text of cards[i].texts"
+                    class="text-card m-2 flex justify-between items-center p-1 bg-gray-100">
+                    <p>{{text.text}}</p>
+                    <!--edit button-->
+                    <button class="text-black px-4 py-2 rounded hover:bg-white hover:shadow-xl"
+                        (click)="openEditTextsModal(textEditModal, text)">edit</button>
+                    <ng-template #textEditModal let-modal>
+                        <div class="modal-header">
+                            <h4 class="modal-title">Text Udate</h4>
+                        </div>
+                        <div class="modal-body">
+                            <!--- body with inputs -->
+                            <form [formGroup]="textForm" class="p-2" (ngSubmit)="onSubmitUpdateText()">
+                                <!--card title input-->
+                                <div class="title">
+                                    <input type="text"
+                                        class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                                        id="title" formControlName="text" placeholder="Text here">
+                                </div>
+                                <br>
+                                <!--submit input-->
+                                <div class="text">
+                                    <button type="submit"
+                                        class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Submit</button>
+                                </div>
+                                <br>
+                                <div class="options flex justify-between">
+                                    <!--underline checkbox-->
+                                    <div class="underline">
+                                        <input type="checkbox">
+                                        <label for="underline">Underline</label>
+                                    </div>
+
+                                    <!-- line through checkbox-->
+                                    <div class="line-through">
+                                        <input type="checkbox">
+                                        <label for="line-through">Line Through</label>
+                                    </div>
+                                    <!--bold checkbox-->
+                                    <div class="bold">
+                                        <input type="checkbox">
+                                        <label for="bold">Bold</label>
+                                    </div>
+                                </div>
+                                <br>
+                                <!-- delete button-->
+
+                            </form>
+                            <div class="delete">
+                                <button
+                                    class="text-white px-4 py-2 rounded bg-red-300 hover:bg-indigo-100 hover:shadow-xl"
+                                    (click)="deleteText(text.id, text.cardId)">Delete</button>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button"
+                                class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+                                (click)="modal.close('Close click')">
+                                Close
+                            </button>
+                        </div>
+                    </ng-template>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="container mx-auto p-4">
+        <!-- <button 
+      class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+      (click)="openModal(myModalContent, { id: 1, name: 'Example Item' })"
+    >
+      Open Modal
+    </button> -->
+
+        <ng-template #myModalContent let-modal>
+            <div class="modal-header">
+                <h4 class="modal-title">Item Details</h4>
+                <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>ID: {{ modalData?.id }}</p>
+                <p>Name: {{ modalData?.name }}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+                    (click)="modal.close('Close click')">
+                    Close
+                </button>
+            </div>
+        </ng-template>
+    </div>
+</div>
