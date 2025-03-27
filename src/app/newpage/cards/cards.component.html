@@ -52,6 +52,9 @@
                     <p>{{card.dateCreated}}</p>
                 </div>
                 <div class="buttons relative">
+                    <!-- reminder on dot-->
+                    <div class="reminder-dot bg-red-500 rounded-full text-white text-center"
+                        [ngClass]="{'bg-red-500': card.reminder, 'bg-gray-500': !card.reminder}">reminder</div>
                     <!--edit button-->
                     <button class="text-black px-4 py-2 rounded hover:bg-white hover:shadow-xl"
                         (click)="openEditCardModal(editCardModal, card)">
@@ -91,10 +94,11 @@
                                 <div class="reminder">
                                     <input type="datetime-local"
                                         class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-                                        id="reminder" placeholder="Reminder">
+                                        id="reminder" [(ngModel)]="scheduleDate" placeholder="Reminder">
                                     <!--shdule button-->
                                 </div>
-                                <button type="submit" class="p-3 hover:bg-gray-100 rounded">Schedule</button>
+                                <button type="submit" (click)="setReminder(card.id)"
+                                    class="p-3 hover:bg-gray-100 rounded">Schedule</button>
                             </div>
                             <!-- delete button-->
                             <div class="delete mt-2">
@@ -149,7 +153,11 @@
                 <!--text card-->
                 <div *ngFor="let text of cards[i].texts"
                     class="text-card m-2 flex justify-between items-center p-1 bg-gray-100">
-                    <p>{{text.text}}</p>
+                    <p [ngClass]="{
+                        'underline': text.underline,
+                        'line-through': text.lineThrough,
+                        'bg-red-200': text.highlight
+                    }">{{text.text}}</p>
                     <!--edit button-->
                     <button class="text-black px-4 py-2 rounded hover:bg-white hover:shadow-xl"
                         (click)="openEditTextsModal(textEditModal, text)">edit</button>
@@ -172,29 +180,27 @@
                                     <button type="submit"
                                         class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Submit</button>
                                 </div>
-                                <br>
-                                <div class="options flex justify-between">
-                                    <!--underline checkbox-->
-                                    <div class="underline">
-                                        <input type="checkbox">
-                                        <label for="underline">Underline</label>
-                                    </div>
 
-                                    <!-- line through checkbox-->
-                                    <div class="line-through">
-                                        <input type="checkbox">
-                                        <label for="line-through">Line Through</label>
-                                    </div>
-                                    <!--bold checkbox-->
-                                    <div class="bold">
-                                        <input type="checkbox">
-                                        <label for="bold">Bold</label>
-                                    </div>
-                                </div>
-                                <br>
-                                <!-- delete button-->
 
                             </form>
+                            <br>
+                            <div class="options flex justify-between">
+                                <!--underline checkbox-->
+                                <div class="underline hoover:pointer hoover:shadow-xl rounded">
+                                    <button class="underline">Underline</button>
+                                </div>
+
+                                <!-- line through checkbox-->
+                                <div class="line-through hoover:pointer hoover:shadow-xl rounded">
+                                    <button class="line-through">Line Through</button>
+                                </div>
+                                <!--bold checkbox-->
+                                <div class="highlight bg-red-200 hoover:pointer hoover:shadow-xl rounded">
+                                    <button> Highlight</button>
+                                </div>
+                            </div>
+                            <br>
+                            <!-- delete button-->
                             <div class="delete">
                                 <button
                                     class="text-white px-4 py-2 rounded bg-red-300 hover:bg-indigo-100 hover:shadow-xl"

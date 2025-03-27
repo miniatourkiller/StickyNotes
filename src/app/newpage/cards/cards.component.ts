@@ -16,6 +16,7 @@ export class CardsComponent {
   cardForm: FormGroup;
   textForm: FormGroup;
   cards: Array<any> = [];
+  scheduleDate: string = '';
 
   constructor(private modalService: NgbModal ,private fb: FormBuilder, private consumer: ConsumerService, private sessionServices: SessionServiceService) {
     this.cardForm = this.fb.group({
@@ -174,6 +175,17 @@ export class CardsComponent {
     console.log(textId, cardId);
     
     this.consumer.delete("/sticky/api/v1/text/" + textId +"/"+ cardId, this.sessionServices.getoken()).subscribe((data: any) => {
+      console.log(data);
+      this.getCards();
+      this.clearTextGroup();
+    }, (error) => {
+      console.log(error.error);
+    })
+  }
+
+  setReminder(cardId: number) {
+    console.log( cardId);
+    this.consumer.put("/sticky/api/v1/card/" + cardId +"/reminder?status=true&dateTime="+this.scheduleDate ,null, this.sessionServices.getoken()).subscribe((data: any) => {
       console.log(data);
       this.getCards();
       this.clearTextGroup();

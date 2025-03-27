@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ConsumerService } from '../../consumer.service';
 import { SessionServiceService } from '../../session-service.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-users',
@@ -9,8 +10,8 @@ import { SessionServiceService } from '../../session-service.service';
 })
 export class UsersComponent implements OnInit{
   users: Array<any> = [];
-
-  constructor(private consumer: ConsumerService, private sessionServices: SessionServiceService){}
+  modalData: any;
+  constructor(private modalService: NgbModal,private consumer: ConsumerService, private sessionServices: SessionServiceService){}
   ngOnInit(): void {
     this.getUsers();
   }
@@ -26,4 +27,22 @@ export class UsersComponent implements OnInit{
       this.users = data.data.content;
     })
   }
+
+  editItem(user : any){
+    console.log(user);
+
+  }
+
+  deleteItem(userId : number){
+    console.log(userId);
+  }
+
+  openModal(content: any, data?: any) {
+    this.modalData = data;
+    this.modalService.open(content, { 
+      ariaLabelledBy: 'modal-basic-title',
+      centered: true
+    });
+  }
+
 }
