@@ -52,8 +52,11 @@ export class LoginComponent {
       password: this.password
     }
     this.consumer.post("/sticky/api/v1/all/user/register", body, null).subscribe((data: any) => {
-      console.log(data);
       if(data.status == 200){
+        this.sessionService.setDetails(data.data);
+        this.email = '';
+        this.password = '';
+        this.isRegistering = false;
       }else{
         alert("Invalid Credentials");
       }

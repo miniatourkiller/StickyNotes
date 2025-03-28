@@ -1,0 +1,7 @@
+docker pull nginx:alpine
+
+docker run -d \
+  -p 5656:5656 \
+  -v $(pwd)/dist/your-project-name/browser:/usr/share/nginx/html \
+  -v $(pwd)/nginx.conf:/etc/nginx/conf.d/default.conf \
+  nginx:alpine
